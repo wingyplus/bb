@@ -23,3 +23,5 @@ erl_crash.dump
 bb-*.tar
 
 .elixir_ls
+
+/bb

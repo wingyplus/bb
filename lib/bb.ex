@@ -3,35 +3,32 @@ defmodule BB do
   `BB` is a program that performs task on my machine.
   """
 
-  @help """
-  bb [command] [args]
-
-  Available commands:
-
-  clone - clone a git repository into GOPATH style.
-  help - print help usage.
-  """
+  alias BB.SubCommand.{Clone, Help}
 
   @doc """
   `BB` main program.
   """
-  def main(args, home_dir \\ &System.user_home!/0)
+  def main(args)
 
-  def main(["clone", repo], home_dir) do
-    dst = Path.join([home_dir.(), "src", repo])
+  def main(["clone", repo]),
+    do: Clone.run([repo]) |> print()
 
-    {output, status} = System.cmd("git", ["clone", "https://" <> repo <> ".git", dst])
+  def main(["help" | _]),
+    do: Help.run() |> print()
+
+  def main(_) do
+    output = """
+    error: invalid command
+
+    #{Help.run() |> elem(0)}
+    """
+
+    {output, 1} |> print()
+  end
+
+  @spec print({output :: String.t(), status :: non_neg_integer()}) :: no_return()
+  defp print({output, status}) do
     IO.puts(:stderr, output)
-    System.stop(status)
-  end
-
-  def main(["help" | _], _) do
-    IO.puts(:stderr, @help)
-  end
-
-  def main(_, _) do
-    IO.puts(:stderr, "error: invalid command\n")
-    main(["help"])
-    System.stop(1)
+    System.halt(status)
   end
 end
