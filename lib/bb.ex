@@ -3,6 +3,7 @@ defmodule BB do
   `BB` is a program that performs task on my machine.
   """
 
+  alias BB.SubCommand
   alias BB.SubCommand.{Clone, Help}
 
   @doc """
@@ -27,7 +28,7 @@ defmodule BB do
     {output, 1} |> print()
   end
 
-  @spec print({output :: String.t(), status :: non_neg_integer()}) :: no_return()
+  @spec print(SubCommand.result()) :: no_return()
   defp print({output, status}) do
     IO.puts(:stderr, output)
     System.halt(status)
