@@ -8,6 +8,7 @@ defmodule BB do
   @doc """
   `BB` main program.
   """
+  @spec main([String.t()]) :: no_return()
   def main(args)
 
   def main(["clone", repo]),
