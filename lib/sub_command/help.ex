@@ -6,8 +6,8 @@ defmodule BB.SubCommand.Help do
 
   Available commands:
 
-  clone - clone a git repository into GOPATH style.
-  help - print help usage.
+  clone - Clone source code by specific repo. The source code will be clone to `$HOME/src`.
+  help - Print help usage.
   """
 
   @impl true
